@@ -13,11 +13,11 @@ Click onto <https://varenya007.github.io/Website/> and you stay in Wonderland an
 
 ### How it's structured
 
-* `how-to-guides/`: Has stuff I've tried simplified. 
+* `how-to-guides/`: Has stuff I've tried, simplified (in case you want to try it out) 
 
 * `blogs/`: Books I've read, Progress on my running journey and thoughts I've thought are going to be here :)
 
 * `projects/`: Has stuff I've broken my head over for a while.
 
-* `about/`: If you want to chat.
+* `about/`: If you want to chat :)
 
