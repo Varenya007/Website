@@ -11,9 +11,7 @@ This repository will appear as a simple collection of code files. You will conti
 **...or Choose the Red Pill.**
 Click onto <https://varenya007.github.io/Website/> and you stay in Wonderland and I show you how deep the rabbit hole goes.
 
-### System Architecture
-
-The application is structured as a series of interconnected nodes, each serving a specific function:
+### How it's structured
 
 * `how-to-guides/`: Has stuff I've tried simplified. 
 
