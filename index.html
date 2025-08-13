@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varenya's GitHub Pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#2d3748 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .typing-text-container {
+            position: absolute;
+            top: 15%; 
+            right: 20%;
+            width: 35%; 
+            max-width: 600px;
+            text-align: left;
+            z-index: 20;
+        }
+
+        .typing-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.5rem;
+            color: #00ff00;
+            white-space: pre-wrap;
+            overflow: hidden;
+        }
+
+        .blinking-cursor {
+            font-family: 'Courier+Prime', monospace;
+            font-size: 1.5rem;
+            color: #00ff00;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff00; }
+        }
+
+        .polaroid-container {
+            position: absolute;
+            width: 250px;
+            height: 300px;
+        }
+
+        .polaroid {
+            position: relative;
+            background-color: #fff;
+            padding: 1rem 1rem 3rem 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: rotate(var(--rotation, 0deg));
+            transition: transform 0.3s ease;
+        }
+        
+        .polaroid:hover {
+            transform: rotate(var(--rotation, 0deg)) scale(1.1);
+            z-index: 10;
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .sketch-image {
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .polaroid:hover .sketch-image {
+            filter: grayscale(0%);
+        }
+
+        .camera-container {
+            position: absolute;
+            left: 50%;
+            top: 75%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: auto;
+        }
+        
+        .camera-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .camera-body:hover {
+            transform: scale(1.05);
+        }
+
+        .camera-hatched {
+            fill: none;
+            stroke-width: 1;
+            stroke: #fff;
+            stroke-dasharray: 2 2;
+        }
+        .camera-body svg rect,
+        .camera-body svg path {
+            fill: #000;
+            stroke: #fff;
+        }
+
+        .shutter-button {
+            fill: #e53e3e;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .about-me-polaroid {
+            position: absolute;
+            width: 180px;
+            height: 220px;
+            background-color: #fff;
+            padding: 1rem 1rem 3rem 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: rotate(5deg);
+            z-index: -1; 
+            bottom: -110px;
+            left: 50%;
+            transform: translateX(-50%) rotate(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .about-me-polaroid-content {
+            width: 100%;
+            height: 100%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #4a5568;
+            border-radius: 5px;
+        }
+        
+        .white-rabbit {
+            position: absolute;
+            z-index: 15;
+            width: 50px;
+            height: 50px;
+            stroke: #000;
+            stroke-width: 2;
+            fill: #fff;
+            visibility: visible;
+            cursor: pointer;
+        }
+
+        .rabbit-position {
+            position: absolute;
+            left: 50%;
+            bottom: -150px;
+            transform: translateX(-50%);
+            z-index: 16;
+        }
+
+        @media (max-width: 768px) {
+            .polaroid-container {
+                position: relative;
+                width: 80%;
+                height: auto;
+                margin: 2rem auto;
+            }
+            
+            .camera-container {
+                position: relative;
+                transform: none;
+                top: auto;
+                left: auto;
+                margin: 2rem auto;
+                width: 300px;
+            }
+            
+            .about-me-polaroid {
+                bottom: -100px;
+                width: 150px;
+                height: 200px;
+            }
+
+            .rabbit-position {
+                bottom: -120px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="typing-text-container mb-12">
+        <pre id="typing-text" class="typing-text"></pre>
+        <span id="cursor" class="blinking-cursor">_</span>
+    </div>
+
+    <div class="relative w-full max-w-5xl mx-auto flex flex-wrap justify-center p-8 rounded-2xl">
+        
+        <!-- Polaroid 1: How-To Guides -->
+        <a href="https://github.com/Varenya007" class="polaroid-container polaroid-item" id="polaroid-1" style="top: 15%; left: 10%; transform: rotate(-5deg);">
+            <div class="polaroid rounded-lg">
+                <img src="https://placehold.co/300x300/e5e7eb/7f8c8d?text=How-To+Sketch" alt="A sketch of a robot" class="w-full h-auto rounded-lg sketch-image">
+                <div class="polaroid-caption text-gray-800">How-To Guides</div>
+            </div>
+        </a>
+        
+        <!-- Polaroid 2: Blogs -->
+        <a href="https://github.com/Varenya007" class="polaroid-container polaroid-item" id="polaroid-2" style="top: 10%; right: 10%; transform: rotate(8deg);">
+            <div class="polaroid rounded-lg">
+                <img src="https://placehold.co/300x300/e5e7eb/7f8c8d?text=Blog+Sketch" alt="A sketch of a blog" class="w-full h-auto rounded-lg sketch-image">
+                <div class="polaroid-caption text-gray-800">Blogs</div>
+            </div>
+        </a>
+        
+        <!-- Polaroid 3: Projects -->
+        <a href="https://github.com/Varenya007" class="polaroid-container polaroid-item" id="polaroid-3" style="bottom: 10%; left: 15%; transform: rotate(-3deg);">
+            <div class="polaroid rounded-lg">
+                <img src="https://placehold.co/300x300/e5e7eb/7f8c8d?text=Projects+Sketch" alt="A sketch of projects" class="w-full h-auto rounded-lg sketch-image">
+                <div class="polaroid-caption text-gray-800">Projects</div>
+            </div>
+        </a>
+
+        <!-- Camera and About Me Polaroid -->
+        <a href="https://500px.com/p/varenya?view=photos" class="camera-container polaroid-item" id="camera-link">
+            <div class="camera-body">
+                <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" stroke="#fff" stroke-width="2">
+                    <path d="M50,150 L50,300 A20,20 0 0,0 70,320 L430,320 A20,20 0 0,0 450,300 L450,150 A20,20 0 0,0 430,130 L70,130 A20,20 0 0,0 50,150 Z" fill="#000"/>
+                    
+                    <rect x="100" y="70" width="300" height="60" fill="#000" rx="10" ry="10" />
+                    
+                    <circle cx="250" cy="220" r="50" fill="#2d3748" />
+                    <circle cx="250" cy="220" r="40" fill="#4a5568" />
+                    <path d="M220,200 Q250,180 280,200" fill="none" stroke="#fff" stroke-width="1" />
+                    <path d="M220,240 Q250,260 280,240" fill="none" stroke="#fff" stroke-width="1" />
+                    
+                    <path d="M350,160 L380,160 L380,190 L350,190 L350,160 Z" fill="#2d3748" />
+                    <line x1="355" y1="165" x2="375" y2="185" stroke="#fff" stroke-width="1" />
+                    <line x1="375" y1="165" x2="355" y2="185" stroke="#fff" stroke-width="1" />
+                    
+                    <circle cx="90" cy="180" r="15" class="shutter-button"/>
+                    
+                    <rect x="150" y="270" width="200" height="5" fill="red"/>
+                    <rect x="150" y="275" width="200" height="5" fill="orange"/>
+                    <rect x="150" y="280" width="200" height="5" fill="yellow"/>
+                    <rect x="150" y="285" width="200" height="5" fill="green"/>
+                    <rect x="150" y="290" width="200" height="5" fill="blue"/>
+                    <rect x="150" y="295" width="200" height="5" fill="purple"/>
+                    
+                    <rect x="100" y="320" width="300" height="20" fill="#e5e7eb" stroke-width="2"/>
+                    <line x1="100" y1="325" x2="400" y2="325" class="camera-hatched" />
+                    <line x1="100" y1="330" x2="400" y2="330" class="camera-hatched" />
+                    <line x1="100" y1="335" x2="400" y2="335" class="camera-hatched" />
+                    
+                    <line x1="50" y1="150" x2="50" y2="300" class="camera-hatched" />
+                    <line x1="100" y1="70" x2="100" y2="130" class="camera-hatched" />
+                    <line x1="400" y1="70" x2="400" y2="130" class="camera-hatched" />
+                </svg>
+            </div>
+            <a href="https://github.com/Varenya007/about" class="about-me-polaroid">
+                <div class="about-me-polaroid-content">
+                     <img src="https://placehold.co/300x300/e5e7eb/7f8c8d?text=About+Me+Sketch" alt="A sketch of a person" class="w-full h-auto rounded-lg sketch-image">
+                </div>
+                <div class="polaroid-caption text-gray-800">About Me</div>
+            </a>
+            <!-- Static white rabbit under the polaroid -->
+            <a href="https://github.com/Varenya007" class="rabbit-position">
+                 <svg class="white-rabbit" viewBox="0 0 100 100">
+                    <path d="M50,85 C20,85 10,70 10,50 C10,30 30,10 50,10 C70,10 90,30 90,50 C90,70 80,85 50,85 Z" fill="#fff" stroke="#000" stroke-width="5" />
+                    <path d="M40,40 C45,30 55,30 60,40" fill="none" stroke="#000" stroke-width="3" />
+                    <circle cx="45" cy="50" r="3" fill="#000" />
+                    <circle cx="55" cy="50" r="3" fill="#000" />
+                    <path d="M45,60 C40,65 60,65 55,60" fill="none" stroke="#000" stroke-width="3" />
+                    <path d="M30,30 C35,20 45,20 50,30 L50,10 C55,0 65,0 70,10 C75,20 75,30 70,40" fill="none" stroke="#000" stroke-width="3"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const typingTextElement = document.getElementById('typing-text');
+            const cursorElement = document.getElementById('cursor');
+            const messages = [
+                "Wake up, Neo. . .",
+                "The Matrix has you. . .",
+                "Follow the white rabbit.",
+                "Knock, knock, Neo."
+            ];
+            let messageIndex = 0;
+            let characterIndex = 0;
+            const typingSpeed = 100;
+            const lineBreakDelay = 1500;
+            const finalDelay = 3000; // 3-second delay after the last line
+
+            function typeWriter() {
+                if (messageIndex < messages.length) {
+                    const currentMessage = messages[messageIndex];
+                    if (characterIndex < currentMessage.length) {
+                        typingTextElement.textContent += currentMessage.charAt(characterIndex);
+                        characterIndex++;
+                        setTimeout(typeWriter, typingSpeed);
+                    } else {
+                        messageIndex++;
+                        if (messageIndex < messages.length) {
+                            setTimeout(() => {
+                                typingTextElement.textContent = '';
+                                characterIndex = 0;
+                                typeWriter();
+                            }, lineBreakDelay);
+                        } else {
+                            setTimeout(() => {
+                                typingTextElement.textContent = '';
+                                messageIndex = 0;
+                                characterIndex = 0;
+                                typeWriter();
+                            }, finalDelay);
+                        }
+                    }
+                }
+            }
+            
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
